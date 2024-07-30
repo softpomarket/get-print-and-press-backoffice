@@ -1,0 +1,34 @@
+.blog-card {
+    border: 1px solid #b5b5b5;
+    background-color: white;
+    border-radius: 8px;
+    display: grid;
+    cursor: pointer;
+}
+
+.blog-card:hover {
+    border: 1px solid #b5b5b5;
+    background-color: white;
+    border-radius: 8px;
+    display: grid;
+    box-shadow: 1px 1px 15px 1px rgb(101, 101, 101);
+    cursor: pointer;
+}
+
+.blog-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    line-height: 19px;
+    max-height: 57px;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    /* height: 40px; */
+}
+
+/* Top left text */
+.top-left {
+    position: absolute;
+    /* top: 12px;
+    left: 12px; */
+}

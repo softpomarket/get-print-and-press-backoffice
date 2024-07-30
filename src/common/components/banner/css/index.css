@@ -1,0 +1,40 @@
+.swiper-slide img {
+    display: block;
+    object-fit: cover;
+}
+
+.swiper-slide {
+    width: auto;
+}
+
+.swiper-button-prev {
+    background-color: rgb(15, 108, 255, 0.4);
+    color: white;
+    border-radius: 10px 10px 10px 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: -27px;
+}
+
+.swiper-button-next {
+    background-color: rgb(15, 108, 255, 0.4);
+    color: white;
+    border-radius: 10px 10px 10px 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    margin-top: -27px;
+}
+
+.swiper-pagination-bullet {
+    width: 15px;
+    height: 15px;
+    background-color: white;
+}
+
+.swiper-pagination-bullet-active {
+    background-color: white;
+}

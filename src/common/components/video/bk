@@ -1,0 +1,321 @@
+/* eslint-disable array-callback-return */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable no-useless-concat */
+/* eslint-disable jsx-a11y/alt-text */
+
+import "./../video/css/index.css"
+import { useState, useRef, useEffect } from "react"
+import ReactPlayer from "react-player"
+import { styled } from '@mui/system'
+import screenful from "screenfull"
+import { serverUrl } from "./../../../constants"
+import Controls from "./Controls"
+
+const useStyles = styled(({ theme }) => ({
+    playerWrapper: {
+        width: "100%",
+        position: "relative",
+    },
+    controlsWrapper: {
+        visibility: "hidden",
+        // position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: "rgba(0,0,0,0.4)",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+    },
+    topControls: {
+        display: "flex",
+        justifyContent: "flex-end",
+        padding: theme.spacing(2),
+    },
+    middleControls: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+    },
+    bottomWrapper: {
+        display: "flex",
+        flexDirection: "column",
+        padding: theme.spacing(2),
+    },
+    bottomControls: {
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+    },
+    button: {
+        margin: theme.spacing(1),
+    },
+    controlIcons: {
+        color: "#777",
+
+        fontSize: 50,
+        transform: "scale(0.9)",
+        "&:hover": {
+            color: "#fff",
+            transform: "scale(1)",
+        },
+    },
+    bottomIcons: {
+        color: "#999",
+        "&:hover": {
+            color: "#fff",
+        },
+    },
+    volumeSlider: {
+        width: 100,
+    }
+}))
+
+const format = (seconds) => {
+    if (isNaN(seconds)) {
+        return `00:00`
+    }
+    const date = new Date(seconds * 1000)
+    const hh = date.getUTCHours()
+    const mm = date.getUTCMinutes()
+    const ss = date.getUTCSeconds().toString().padStart(2, "0")
+    if (hh) {
+        return `${hh}:${mm.toString().padStart(2, "0")}:${ss}`
+    }
+    return `${mm}:${ss}`
+}
+
+let count = 0
+
+function Video(props) {
+    const [loading, setLoading] = useState(false)
+
+    const timerRunning = props.timerRunning ? props.timerRunning : true
+    const [videoHeight, setVideoHeight] = useState(props.height ? props.height : '100%')
+
+    const videoWidth = props.width ? props.width : '100%'
+    const timeDisplayFormat = "normal"
+
+    const [isFullScreen, setIsFullScreen] = useState(false)
+
+    const classes = useStyles()
+
+    const [state, setState] = useState({
+        pip: false,
+        playing: (props.isPlaying === undefined ? true : props.isPlaying), // true is running video
+        controls: false,
+        light: false,
+
+        muted: false, // false is open volume
+        played: 0,
+        duration: 0,
+        playbackRate: 1.0,
+        volume: 1,
+        loop: props.loop,
+        seeking: false,
+    })
+
+    const playerRef = useRef(null)
+    const playerContainerRef = useRef(null)
+    const controlsRef = useRef(null)
+
+    const {
+        playing,
+        light,
+        muted,
+        loop,
+        playbackRate,
+        pip,
+        played,
+        volume
+    } = state
+
+    const [seconds, setSeconds] = useState(0)
+
+    const currentTime = playerRef && playerRef.current ? playerRef.current.getCurrentTime() : "00:00"
+
+    const duration = playerRef && playerRef.current ? playerRef.current.getDuration() : "00:00"
+    const elapsedTime = timeDisplayFormat === "normal" ? format(currentTime) : `-${format(duration - currentTime)}`
+
+    const totalDuration = format(duration)
+
+    const handlePlayPause = () => {
+        setState({ ...state, playing: !state.playing })
+    }
+
+    const handleRewind = () => {
+        setLoading(true)
+        playerRef.current.seekTo(playerRef.current.getCurrentTime() - 10)
+        props.handlePlayer(playerRef)
+    }
+
+    const handleFastForward = () => {
+        setLoading(true)
+        playerRef.current.seekTo(playerRef.current.getCurrentTime() + 10)
+        props.handlePlayer(playerRef)
+    }
+
+    const handleProgress = (changeState) => {
+        if (count > 3) {
+            controlsRef.current.style.visibility = "hidden"
+            props.handleControls(controlsRef)
+            count = 0
+        }
+        
+        if (controlsRef.current.style.visibility === "visible") {
+            count += 1
+        }
+
+        if (!state.seeking) {
+            setState({ ...state, ...changeState })
+        }
+
+        props.handleTimeVideo({
+            timeVideo: playerRef && playerRef.current ? playerRef.current.getDuration() : "00:00",
+            displayTimeVideo: format(playerRef && playerRef.current ? playerRef.current.getDuration() : "00:00")
+        })
+    }
+
+    const handleSeekChange = (e, newValue) => {
+        setLoading(true)
+        setState({ ...state, played: parseFloat(newValue / 100) })
+    }
+
+    const handleSeekMouseDown = (e) => {
+        setState({ ...state, seeking: true })
+    }
+
+    const handleSeekMouseUp = (e, newValue) => {
+        setState({ ...state, seeking: false })
+        playerRef.current.seekTo(newValue / 100, "fraction")
+        props.handlePlayer(playerRef)
+    }
+
+    const handleVolumeSeekDown = (e, newValue) => {
+        setState({ ...state, seeking: false, volume: parseFloat(newValue / 100) })
+    }
+
+    const handleVolumeChange = (e, newValue) => {
+        setState({ ...state, volume: parseFloat(newValue / 100), muted: newValue === 0 ? true : false })
+    }
+
+    const toggleFullScreen = () => {
+        if (props.height) {
+            setVideoHeight(!isFullScreen ? '100%' : props.height)
+            setIsFullScreen(!isFullScreen)
+        }
+
+        screenful.toggle(playerContainerRef.current)
+    }
+
+    const handleMouseMove = () => {
+        // if (isFullScreen) {
+            controlsRef.current.style.visibility = "visible"
+            props.handleControls(controlsRef)
+            count = 0            
+        // }
+    }
+
+    const handleMouseLeave = () => {
+        if (isFullScreen) {
+            controlsRef.current.style.visibility = "hidden"
+            props.handleControls(controlsRef)
+            count = 0
+        }
+    }
+
+    const handlePlaybackRate = (rate) => {
+        setState({ ...state, playbackRate: rate })
+    }
+
+    const handleMute = () => {
+        setState({ ...state, muted: !state.muted })
+    }
+
+    useEffect(() => {
+        setSeconds(0)
+    }, [props.videoId])
+
+    useEffect(() => {
+        handleVolumeChange(0, 100)
+    }, [])
+
+    useEffect(() => {
+        if (props.isBreak === false ) { // only false
+            handlePlayPause()
+        }
+    }, [props.isBreak])
+
+    useEffect(() => {
+        props.handlePlayer(playerRef)
+    }, [playerRef])
+
+    useEffect(() => {
+        props.handleControls(controlsRef)
+    }, [controlsRef])
+    
+    return (
+        <>
+            <div
+                onMouseMove={handleMouseMove} 
+                onMouseLeave={handleMouseLeave} 
+                ref={playerContainerRef}
+                className={classes.playerWrapper}
+            >
+                <ReactPlayer
+                    ref={playerRef}
+                    width={videoWidth}
+                    height={videoHeight}
+                    url={`${serverUrl}/${props.videoLocation}`}
+                    pip={pip}
+                    playing={playing}
+                    controls={false}
+                    light={light}
+                    loop={loop}
+                    playbackRate={playbackRate}
+                    volume={volume}
+                    muted={muted}
+                    onProgress={handleProgress}
+                    config={{
+                        file: {
+                            attributes: {
+                                crossOrigin: "anonymous"
+                            }
+                        }
+                    }}
+                    onReady={(e) => {
+                        setLoading(false)
+                    }}
+                />
+                <Controls
+                    ref={controlsRef}
+                    onSeek={handleSeekChange}
+                    onSeekMouseDown={handleSeekMouseDown}
+                    onSeekMouseUp={handleSeekMouseUp}
+                    onRewind={handleRewind}
+                    onPlayPause={handlePlayPause}
+                    onFastForward={handleFastForward}
+                    playing={playing}
+                    played={played}
+                    elapsedTime={elapsedTime}
+                    totalDuration={totalDuration}
+                    onMute={handleMute}
+                    muted={muted}
+                    onVolumeSeekDown={handleVolumeSeekDown}
+                    playbackRate={playbackRate}
+                    onPlaybackRateChange={handlePlaybackRate}
+                    onToggleFullScreen={toggleFullScreen}
+                    volume={volume}
+                    onVolumeChange={handleVolumeChange}
+                    loading={loading}
+                    videoTitle={props.videoTitle}
+                    isControlActive={controlsRef?.current?.style?.visibility}
+                    isFullScreen={isFullScreen}
+                />
+            </div>
+        </>
+    )
+}
+
+export default Video
