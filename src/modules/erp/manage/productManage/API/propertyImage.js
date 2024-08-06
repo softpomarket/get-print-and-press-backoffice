@@ -1,5 +1,5 @@
-import { server } from "../../../../../constants";
-import { httpClient } from "../../../../../utils/HttpClient";
+import { server } from "@/constants";
+import { httpClient } from "@/utils/HttpClient";
 
 // Property Type
 const insertPropertyImageFetch = async (param, body, accessToken) => {

@@ -1,10 +1,10 @@
 import { server } from "@/constants";
 import { httpClient } from "@/utils/HttpClient";
 
-const insertBannersFetch = async (body, accessToken) => {
+const insertBlogKnowledge = async (body, accessToken) => {
   // Done
   try {
-    const result = await httpClient.post(server.INSERT_BANNERS_URL, body, {
+    const result = await httpClient.post(server.INSERT_KNOWLEDGE_URL, body, {
       headers: {
         Authorization: `Bearer ${accessToken}`,
       },
@@ -54,18 +54,16 @@ const getPropertiesFetch = async (param, body, accessToken) => {
   }
 };
 
-const getBannersFetch = async (param, accessToken) => {
+const getKnowledgeFetch = async (param, accessToken) => {
   try {
-    console.log(accessToken);
     const result = await httpClient.get(
-      `${server.GET_BANNERS_URL}?keyword=${param.keyword}`,
+      `${server.GET_KNOWLEDGE_URL}?title=${param.title}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
       }
     );
-    console.log("API", result);
 
     if (result.data.status) {
       return result.data.results;
@@ -143,10 +141,10 @@ const updateBannersFetch = async (param, body, accessToken) => {
   }
 };
 
-const deleteBannerByIdFetch = async (param, body, accessToken) => {
+const deleteKnowledgeByIdFetch = async (param, body, accessToken) => {
   try {
     const result = await httpClient.delete(
-      server.DELETE_BANNERS_URL + `/${param.id}`,
+      server.DELETE_KNOWLEDGE_URL + `/${param.id}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -180,11 +178,11 @@ const deletePropertiesByIdFetch = async (param, body, accessToken) => {
 export {
   // get
   getPropertiesFetch,
-  getBannersFetch,
+  getKnowledgeFetch,
   getPropertiesByIdFetch,
 
   // insert
-  insertBannersFetch,
+  insertBlogKnowledge,
   insertPropertiesFetch,
 
   // update
@@ -193,5 +191,5 @@ export {
 
   // delete
   deletePropertiesByIdFetch,
-  deleteBannerByIdFetch,
+  deleteKnowledgeByIdFetch,
 };

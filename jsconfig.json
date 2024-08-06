@@ -1,16 +1,14 @@
 {
   "compilerOptions": {
-    "experimentalDecorators": true,
-    "baseUrl": "./src",
-    "jsx": "react",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "jsx": "react-jsx",
+    "baseUrl": "./",
     "paths": {
-      "assets": ["./assets"],
-      "components": ["./components"],
-      "reference": ["./reference"],
-      "service": ["./service"],
-      "ui": ["./ui"],
-      "workflow": ["./workflow"]
+      "@/*": ["./src/*"]
     }
   },
-  "exclude": ["node_modules", "build"]
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"]
 }

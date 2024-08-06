@@ -1,8 +1,8 @@
-import { server } from "../../../../../constants";
-import { httpClient } from "../../../../../utils/HttpClient";
+import { server } from "@/constants";
+import { httpClient } from "@/utils/HttpClient";
 
 // Property
-const insertPickUpFetch = async (param, body, accessToken) => {
+const insertProductFetch = async (param, body, accessToken) => {
   // Done
   try {
     const result = await httpClient.post(server.INSERT_PRODUCT_URL, body, {
@@ -32,7 +32,7 @@ const insertPropertiesFetch = async (param, body, accessToken) => {
   }
 };
 
-const getPickUpFetch = async (param, body, accessToken) => {
+const getProductFetch = async (param, body, accessToken) => {
   // Done
   try {
     const result = await httpClient.get(
@@ -98,7 +98,7 @@ const getPropertiesByIdFetch = async (param, body, accessToken) => {
   }
 };
 
-const updatePickUpFetch = async (param, body, accessToken) => {
+const updateProductFetch = async (param, body, accessToken) => {
   try {
     const result = await httpClient.put(
       server.UPDATE_PICKUP_URL + `/${param.id}`,
@@ -109,7 +109,6 @@ const updatePickUpFetch = async (param, body, accessToken) => {
         },
       }
     );
-    console.log("UODATE fetch", result);
     return result.data;
   } catch (err) {
     // status 404
@@ -134,10 +133,10 @@ const updatePropertiesFetch = async (param, body, accessToken) => {
     return null;
   }
 };
-const deletePickUpByIdFetch = async (param, body, accessToken) => {
+const deleteProductByIdFetch = async (param, body, accessToken) => {
   try {
     const result = await httpClient.delete(
-      server.DELETE_PICKUP_BY_ID_URL + `/${param.id}`,
+      server.DELETE_PRODUCT_BY_ID_URL + `/${param.id}`,
       {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -170,19 +169,19 @@ const deletePropertiesByIdFetch = async (param, body, accessToken) => {
 
 export {
   // get
-  getPickUpFetch,
+  getProductFetch,
   getPropertiesFetch,
   getPropertiesByIdFetch,
 
   // insert
-  insertPickUpFetch,
+  insertProductFetch,
   insertPropertiesFetch,
 
   // update
   updatePropertiesFetch,
-  updatePickUpFetch,
+  updateProductFetch,
 
   // delete
-  deletePickUpByIdFetch,
+  deleteProductByIdFetch,
   deletePropertiesByIdFetch,
 };

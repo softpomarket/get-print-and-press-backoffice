@@ -1,6 +1,6 @@
 import Axios from 'axios'
 import join from 'url-join'
-import { NOT_CONNECT_NETWORK, NETWORK_CONNECTION_MESSAGE, apiServerUrl } from './../constants'
+import { NOT_CONNECT_NETWORK, NETWORK_CONNECTION_MESSAGE, apiServerUrl } from '@/constants'
 
 const isAbsoluteURLRegex = /^(?:\w+:)\/\//
 
