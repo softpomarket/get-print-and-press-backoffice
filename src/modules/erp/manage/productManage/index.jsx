@@ -553,6 +553,7 @@ export default function ProductManage(props) {
                   id: val.id,
                   title: val.title,
                   isActive: val.isActive,
+                  subTitle: val.subTitle,
                   productcategoryId: val.productCategoryId,
                 });
 
@@ -642,6 +643,8 @@ export default function ProductManage(props) {
     let body = {
       title: values.title,
       isActive: values.isActive,
+      subTitle: values.subTitle,
+      description: values.description ?? "-",
       productcategoryId: values.productcategoryId,
       imagepathproductcoverSingle: imageCoverProduct.imagePath,
       imagepathproductadvertSingle: imageAdsProduct.imagePath,
@@ -655,6 +658,8 @@ export default function ProductManage(props) {
     const bodyUpdate = {
       id: values.id,
       title: values.title,
+      subTitle: values.subTitle,
+      description: values.description ?? "-",
       isActive: values.isActive,
       productcategoryId: values.productcategoryId,
       imageproductcoverSingle: {
@@ -762,6 +767,8 @@ export default function ProductManage(props) {
       title: undefined,
       isActive: undefined,
       id: undefined,
+      subTitle: undefined,
+      description: "",
       productcategoryId: undefined,
     });
 
@@ -957,6 +964,30 @@ export default function ProductManage(props) {
                     </Select>
                   </Form.Item>
                 </Col>
+
+                {/* SubTitle */}
+                <Col xs={24}>
+                  <Form.Item
+                    name="subTitle"
+                    label="หัวข้อย่อย"
+                    rules={[
+                      {
+                        required: true,
+                        message: "กรุณากรอกหัวข้อย่อย",
+                      },
+                    ]}
+                  >
+                    <Input placeholder="กรอกข้อความ" />
+                  </Form.Item>
+                </Col>
+
+                {/* Description */}
+                {/* <Col xs={24}>
+                  <Form.Item name="description" label="รายละเอียดผลิตภัณฑ์">
+                    <Input placeholder="กรอกข้อความ" />
+                  </Form.Item>
+                </Col> */}
+
                 {/* Product Cover Image */}
                 <Col xs={24} md={12}>
                   <div style={{ display: "grid" }}>
@@ -1180,7 +1211,7 @@ export default function ProductManage(props) {
                                   src={`${val.googleImage}`} // Assuming googleImage is the source
                                   alt="Property Image"
                                   style={{
-                                    objectFit: "cover",
+                                    objectFit: "contain",
                                     width: "100%",
                                     height: 200,
                                     borderTopLeftRadius: 8,

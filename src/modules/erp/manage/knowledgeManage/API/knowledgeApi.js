@@ -97,14 +97,14 @@ const getPropertiesByIdFetch = async (param, body, accessToken) => {
   }
 };
 
-const updatePropertiesFetch = async (param, body, accessToken) => {
+const updateKnowledgeFetch = async (param, body, accessToken) => {
   try {
     const result = await httpClient.put(
-      server.UPDATE_PROPERTIES_URL + `/${param.id}`,
+      server.UPDATE_KNOWLEDGE_URL + `/${param.id}`,
       body,
       {
         headers: {
-          "x-access-token": accessToken,
+          Authorization: `Bearer ${accessToken}`,
         },
       }
     );
@@ -186,7 +186,7 @@ export {
   insertPropertiesFetch,
 
   // update
-  updatePropertiesFetch,
+  updateKnowledgeFetch,
   updateBannersFetch,
 
   // delete

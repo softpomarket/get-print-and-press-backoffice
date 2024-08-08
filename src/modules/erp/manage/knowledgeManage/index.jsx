@@ -25,6 +25,7 @@ import {
   getKnowledgeFetch,
   insertBlogKnowledge,
   updateBannersFetch,
+  updateKnowledgeFetch,
 } from "./API/knowledgeApi";
 import { getProductFetch } from "../productManage/API/propertyApi";
 
@@ -112,6 +113,8 @@ export default function KnowledgeManage(props) {
     imageUrl: null,
     imagePath: null,
   });
+
+  const [description, setDescription] = useState("");
 
   const [tags, setTags] = useState([]);
 
@@ -242,13 +245,11 @@ export default function KnowledgeManage(props) {
     let tempList = [];
 
     result?.map((val, index) => {
-      console.log("val: ", val);
-
       tempList.push({
         index: index + 1,
         title: val.BlogKnowledge.title,
         isActive: val.BlogKnowledge.isActive,
-        description: val.description,
+        description: val.BlogKnowledge.description,
         createdAt: val.BlogKnowledge.createdAt
           ? moment(val.BlogKnowledge.createdAt).format(formatDate) +
             "\n" +
@@ -268,17 +269,23 @@ export default function KnowledgeManage(props) {
                 border: "1px solid orange",
                 color: "white",
                 borderRadius: 50,
+                marginRight: 4,
               }}
               onClick={async () => {
                 formBlogKnowledge.setFieldsValue({
                   blogId: val.blogId,
-                  productId: val.productId,
+                  productId: val.BlogKnowledge.ProductOnBlog.map((t) =>
+                    t.productId.toString()
+                  ),
+                  description: val.BlogKnowledge.description,
                   title: val.BlogKnowledge.title,
                   isActive: val.BlogKnowledge.isActive,
                   imageCoverId: val.BlogKnowledge.BlogKnowledgeCover.id,
                   imageKnowledgeCoverId:
                     val.BlogKnowledge.BlogKnowledgeDetailImage.id,
                 });
+
+                setDescription(val.BlogKnowledge.description);
 
                 setImageKnowledgeCover({
                   loading: false,
@@ -344,19 +351,44 @@ export default function KnowledgeManage(props) {
 
   const onPropertyFinish = async (values) => {
     let param = {
-      id: values.id ? values.id : "",
+      id: values.blogId ? values.blogId : "",
     };
 
+    //add
     let body = {
       title: values.title,
-      description: values.description,
+      description: values.description ?? description,
       isActive: values.isActive,
-      productId: +values.productId[0],
+      Product: values.productId.map((t) => {
+        return { productId: +t };
+      }),
       imagepathblogknowledgecoverSingle: imageKnowledgeCover.imagePath,
       imagepathblogknowledgedetailSingle: imageKnowledgeDetail.imagePath,
     };
 
-    console.log("body: ", body);
+    console.log(
+      values.productId.map((t) => {
+        return { productId: +t };
+      })
+    );
+
+    //edit
+    let bodyEdit = {
+      title: values.title,
+      description: values.description ?? description,
+      isActive: values.isActive,
+      Product: values.productId.map((t) => {
+        return { productId: +t };
+      }),
+      imageblogknowledgecoverSingle: {
+        imagePath: imageKnowledgeCover.imagePath,
+        id: null,
+      },
+      imageblogknowledgedetailSingle: {
+        imagePath: imageKnowledgeDetail.imagePath,
+        id: null,
+      },
+    };
 
     if (modalBanner.title === "add") {
       const result = await insertBlogKnowledge(body, accessToken);
@@ -367,9 +399,9 @@ export default function KnowledgeManage(props) {
         Notification("error", "ไม่สามารถสร้างได้ กรุณาลองใหม่อีกครั้ง");
       }
     } else if (modalBanner.title === "edit") {
-      const result = await updateBannersFetch(param, body, accessToken);
+      const result = await updateKnowledgeFetch(param, bodyEdit, accessToken);
 
-      if (result) {
+      if (result.status) {
         Notification("success", "เเก้ไขสำเร็จ");
       } else {
         Notification("error", "ไม่สามารถเเก้ไขได้ กรุณาลองใหม่อีกครั้ง");
@@ -389,13 +421,10 @@ export default function KnowledgeManage(props) {
   };
 
   const handleKnowledgeDelete = async (id) => {
-    console.log("id: ", id);
-
     let param = {
       id,
     };
     const result = await deleteKnowledgeByIdFetch(param, null, accessToken);
-    console.log("DELETE BANNER", result);
     if (result && result.status) {
       Notification("success", "ลบสำเร็จ");
     } else {
@@ -415,6 +444,8 @@ export default function KnowledgeManage(props) {
       isActive: undefined,
       description: undefined,
     });
+
+    setDescription("");
 
     setImageKnowledgeCover({
       loading: false,
@@ -734,7 +765,7 @@ export default function KnowledgeManage(props) {
                     },
                     height: 350,
                   }}
-                  // data={description}
+                  data={description}
                   onBlur={(event, editor) => {
                     const data = editor.getData();
                     formBlogKnowledge.setFieldValue("description", data);
