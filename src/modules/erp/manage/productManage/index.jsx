@@ -977,7 +977,11 @@ export default function ProductManage(props) {
                       },
                     ]}
                   >
-                    <Input placeholder="กรอกข้อความ" />
+                    <TextArea
+                      rows={1}
+                      autoSize={true}
+                      placeholder="กรอกข้อความ"
+                    />
                   </Form.Item>
                 </Col>
 
