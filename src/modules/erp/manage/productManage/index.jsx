@@ -906,7 +906,7 @@ export default function ProductManage(props) {
           // default
           setFormPropertyDefault();
         }}
-        width={"90%"}
+        width={890}
         onOk={() => {
           formProperty.submit();
         }}
@@ -996,7 +996,7 @@ export default function ProductManage(props) {
                       <img
                         style={{
                           borderRadius: 8,
-                          maxWidth: "100%",
+                          maxWidth: 200,
                           border: "1px solid #EEEEEE",
                         }}
                         src={`${imageCoverProduct.imageUrl}`}
@@ -1004,7 +1004,7 @@ export default function ProductManage(props) {
                     ) : (
                       <img
                         style={{
-                          width: "100%",
+                          width: 200,
                           borderRadius: 8,
                           border: "1px solid #C4C4C4",
                         }}
@@ -1036,56 +1036,7 @@ export default function ProductManage(props) {
                     </div>
                   </div>
                 </Col>
-                {/* Product Ads Image */}
-                <Col xs={24} md={12}>
-                  <div style={{ display: "grid" }}>
-                    <label style={{ paddingBottom: 6 }}>
-                      ภาพปก โฆษณาของ Product
-                    </label>
-                    {imageAdsProduct?.imageUrl ? (
-                      <img
-                        style={{
-                          borderRadius: 8,
-                          maxWidth: "100%",
-                          border: "1px solid #EEEEEE",
-                        }}
-                        src={`${imageAdsProduct.imageUrl}`}
-                      />
-                    ) : (
-                      <img
-                        style={{
-                          width: "100%",
-                          borderRadius: 8,
-                          border: "1px solid #C4C4C4",
-                        }}
-                        src={`./assets/images/default/df-img.png`}
-                      />
-                    )}
-                    <div style={{ paddingTop: 24, paddingBottom: 24 }}>
-                      <Upload
-                        {...optionProductAdsImage}
-                        accept="image/jpeg, image/png, image/jfif"
-                        style={{ width: "100%" }}
-                        maxCount={1}
-                        showUploadList={false}
-                      >
-                        <Button
-                          type="primary"
-                          style={{ width: "100%" }}
-                          icon={
-                            imageAdsProduct.loading ? (
-                              <LoadingOutlined />
-                            ) : (
-                              <UploadOutlined />
-                            )
-                          }
-                        >
-                          Upload ภาพ
-                        </Button>
-                      </Upload>
-                    </div>
-                  </div>
-                </Col>
+
                 {/* Product Recommend Image */}
                 <Col xs={24} md={12}>
                   <div style={{ display: "grid" }}>
@@ -1096,7 +1047,7 @@ export default function ProductManage(props) {
                       <img
                         style={{
                           borderRadius: 8,
-                          maxWidth: "100%",
+                          maxWidth: 200,
                           border: "1px solid #EEEEEE",
                         }}
                         src={`${imageProductRecommend.imageUrl}`}
@@ -1104,7 +1055,7 @@ export default function ProductManage(props) {
                     ) : (
                       <img
                         style={{
-                          width: "100%",
+                          width: 200,
                           borderRadius: 8,
                           border: "1px solid #C4C4C4",
                         }}
@@ -1136,6 +1087,58 @@ export default function ProductManage(props) {
                     </div>
                   </div>
                 </Col>
+
+                {/* Product Ads Image */}
+                <Col xs={24} md={24}>
+                  <div style={{ display: "grid" }}>
+                    <label style={{ paddingBottom: 6 }}>
+                      ภาพปก โฆษณาของ Product
+                    </label>
+                    {imageAdsProduct?.imageUrl ? (
+                      <img
+                        style={{
+                          borderRadius: 8,
+                          maxWidth: "100%",
+                          border: "1px solid #EEEEEE",
+                        }}
+                        src={`${imageAdsProduct.imageUrl}`}
+                      />
+                    ) : (
+                      <img
+                        style={{
+                          width: 400,
+                          borderRadius: 8,
+                          border: "1px solid #C4C4C4",
+                        }}
+                        src={`./assets/images/default/df-img.png`}
+                      />
+                    )}
+                    <div style={{ paddingTop: 24, paddingBottom: 24 }}>
+                      <Upload
+                        {...optionProductAdsImage}
+                        accept="image/jpeg, image/png, image/jfif"
+                        style={{ width: "100%" }}
+                        maxCount={1}
+                        showUploadList={false}
+                      >
+                        <Button
+                          type="primary"
+                          style={{ width: "100%" }}
+                          icon={
+                            imageAdsProduct.loading ? (
+                              <LoadingOutlined />
+                            ) : (
+                              <UploadOutlined />
+                            )
+                          }
+                        >
+                          Upload ภาพ
+                        </Button>
+                      </Upload>
+                    </div>
+                  </div>
+                </Col>
+
                 {/* Product Status */}
                 <Col xs={24} md={12}>
                   <Form.Item
@@ -1212,15 +1215,14 @@ export default function ProductManage(props) {
                                   alt="Property Image"
                                   style={{
                                     objectFit: "contain",
-                                    width: "100%",
-                                    height: 200,
+                                    width: 200,
                                     borderTopLeftRadius: 8,
                                     borderTopRightRadius: 8,
                                   }}
                                 />
                                 <Button
                                   type="primary"
-                                  style={{ width: "100%" }}
+                                  style={{ width: 200 }}
                                   onClick={async () => {
                                     await handlePromotionGalleryDelete(index);
                                   }}
@@ -1305,14 +1307,13 @@ export default function ProductManage(props) {
                                   style={{
                                     objectFit: "contain",
                                     width: "100%",
-                                    height: 500,
                                     borderTopLeftRadius: 8,
                                     borderTopRightRadius: 8,
                                   }}
                                 />
                                 <Button
                                   type="primary"
-                                  style={{ width: "100%" }}
+                                  style={{ width: 200 }}
                                   onClick={async () => {
                                     await handleProductDetailGalleryDelete(
                                       index
@@ -1398,15 +1399,14 @@ export default function ProductManage(props) {
                                   alt="Property Image"
                                   style={{
                                     objectFit: "contain",
-                                    width: "100%",
-                                    height: 200,
-                                    borderTopLeftRadius: 8,
-                                    borderTopRightRadius: 8,
+                                    width: 200,
+                                    // borderTopLeftRadius: 8,
+                                    // borderTopRightRadius: 8,
                                   }}
                                 />
                                 <Button
                                   type="primary"
-                                  style={{ width: "100%" }}
+                                  style={{ width: 200 }}
                                   onClick={async () => {
                                     await handleProductExampleGalleryDelete(
                                       index

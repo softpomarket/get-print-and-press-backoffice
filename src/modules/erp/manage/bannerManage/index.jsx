@@ -459,7 +459,7 @@ export default function BannerManage(props) {
           // default
           setformBannerDefault();
         }}
-        width={"60%"}
+        width={600}
         onOk={() => {
           formBanner.submit();
         }}
@@ -513,7 +513,7 @@ export default function BannerManage(props) {
               </Row>
             </Col>
 
-            <Col xs={24} md={12} xl={12}>
+            <Col xs={24} md={24} xl={24}>
               <Row gutter={[24, 0]}>
                 <Col xs={24} md={24} xl={24}>
                   <div style={{ display: "grid" }}>

@@ -564,7 +564,7 @@ export default function KnowledgeManage(props) {
           // default
           setformBannerDefault();
         }}
-        width={"60%"}
+        width={750}
         onOk={() => {
           formBlogKnowledge.submit();
         }}
@@ -615,8 +615,8 @@ export default function KnowledgeManage(props) {
                 {imageKnowledgeCover?.imageUrl ? (
                   <img
                     style={{
-                      borderRadius: 8,
-                      maxWidth: "100%",
+                      // borderRadius: 8,
+                      maxWidth: 200,
                       border: "1px solid #EEEEEE",
                     }}
                     src={`${imageKnowledgeCover.imageUrl}`}
