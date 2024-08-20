@@ -530,13 +530,13 @@ export default function ProductManage(props) {
 
         createdAt: val.createdAt
           ? moment(val.createdAt).format(formatDate) +
-            "\n" +
-            moment(val.createdAt).format("HH:mm")
+          "\n" +
+          moment(val.createdAt).format("HH:mm")
           : "-",
         updatedAt: val.updatedAt
           ? moment(val.updatedAt).format(formatDate) +
-            "\n" +
-            moment(val.createdAt).format("HH:mm")
+          "\n" +
+          moment(val.createdAt).format("HH:mm")
           : "-",
         operator: (
           <>
@@ -816,7 +816,7 @@ export default function ProductManage(props) {
     getBaseApi();
   }, []);
   //myEdit
-  useEffect(() => {}, [promotionGalleryDisplay]);
+  useEffect(() => { }, [promotionGalleryDisplay]);
 
   return (
     <Row>
@@ -953,13 +953,13 @@ export default function ProductManage(props) {
                       placeholder="เลือกรายการ"
                     >
                       <Option key={0} value={1}>
-                        ส่งเสริมการขายงานอีเวนท์
+                        สื่อส่งเสริมการขาย งานกิจกรรมต่างๆ
                       </Option>
                       <Option key={1} value={2}>
-                        ส่งเสริมการขายแพคเกจจิ้ง
+                        สื่อส่งเสริมการขายสินค้าและร้านค้า
                       </Option>
                       <Option key={1} value={3}>
-                        ส่งเสริมการขายสินค้าและร้านค้า
+                        สื่อส่งเสริมการขาย แพคเกจจิ้ง
                       </Option>
                     </Select>
                   </Form.Item>
