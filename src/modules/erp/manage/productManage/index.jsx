@@ -28,6 +28,9 @@ import {
 } from "./API/propertyApi";
 import { v4 as uuidv4, validate as uuidValidate } from "uuid";
 
+import ClassicEditor from "@ckeditor/ckeditor5-build-classic";
+import { CKEditor } from "@ckeditor/ckeditor5-react";
+
 const { TextArea } = Input;
 const { Option } = Select;
 
@@ -156,6 +159,8 @@ export default function ProductManage(props) {
   const [pageSize, setPageSize] = useState(5);
   const [total, setTotal] = useState(0);
   const searchNameRef = useRef("");
+
+  const [subtitle, setSubtitle] = useState(null);
 
   const [modalProperty, setModalProperty] = useState({
     isShow: false,
@@ -549,11 +554,14 @@ export default function ProductManage(props) {
                 borderRadius: 50,
               }}
               onClick={async () => {
+
+                setSubtitle(val.subTitle)
+
                 formProperty.setFieldsValue({
                   id: val.id,
                   title: val.title,
                   isActive: val.isActive,
-                  subTitle: val.subTitle,
+                  // subTitle: val.subTitle,
                   productcategoryId: val.productCategoryId,
                 });
 
@@ -643,7 +651,7 @@ export default function ProductManage(props) {
     let body = {
       title: values.title,
       isActive: values.isActive,
-      subTitle: values.subTitle,
+      subTitle: subtitle, //values.subTitle,
       description: values.description ?? "-",
       productcategoryId: values.productcategoryId,
       imagepathproductcoverSingle: imageCoverProduct.imagePath,
@@ -658,7 +666,7 @@ export default function ProductManage(props) {
     const bodyUpdate = {
       id: values.id,
       title: values.title,
-      subTitle: values.subTitle,
+      subTitle: subtitle, //values.subTitle,
       description: values.description ?? "-",
       isActive: values.isActive,
       productcategoryId: values.productcategoryId,
@@ -687,6 +695,8 @@ export default function ProductManage(props) {
         id: uuidValidate(l.id) ? l.id : null,
       })),
     };
+    console.log("bodyUpdate : ", bodyUpdate)
+    
 
     if (modalProperty.title === "add") {
       const result = await insertProductFetch(null, body, accessToken);
@@ -767,7 +777,7 @@ export default function ProductManage(props) {
       title: undefined,
       isActive: undefined,
       id: undefined,
-      subTitle: undefined,
+      // subTitle: undefined,
       description: "",
       productcategoryId: undefined,
     });
@@ -968,16 +978,56 @@ export default function ProductManage(props) {
                 {/* SubTitle */}
                 <Col xs={24}>
                   <Form.Item
-                    name="subTitle"
+                    // name="subTitle"
                     label="หัวข้อย่อย"
-                    rules={[
-                      {
-                        required: true,
-                        message: "กรุณากรอกหัวข้อย่อย",
-                      },
-                    ]}
+                    // rules={[
+                    //   {
+                    //     required: true,
+                    //     message: "กรุณากรอกหัวข้อย่อย",
+                    //   },
+                    // ]}
                   >
-                    <Input placeholder="กรอกข้อความ" />
+                    {/* <Input placeholder="กรอกข้อความ" /> */}
+                    <CKEditor
+                      editor={ClassicEditor}
+                      config={{
+                        toolbar: {
+                          items: [
+                            "heading",
+                            "|",
+                            "fontfamily",
+                            "fontsize",
+                            "|",
+                            "bold",
+                            "italic",
+                            "underline",
+                            "|",
+                            "alignment",
+                            "|",
+                            "fontColor",
+                            "fontBackgroundColor",
+                            "|",
+                            "bulletedList",
+                            "numberedList",
+                            "todoList",
+                            "|",
+                            "code",
+                            "codeBlock",
+                            "|",
+                            "undo",
+                            "redo",
+                          ],
+                          removeButtons: "Subscript,Superscript",
+                          height: 550,
+                        },
+                      }}
+                      data={subtitle}
+                      onBlur={(event, editor) => {
+                        const data = editor.getData();
+                        formProperty.setFieldValue("detail", data);
+                        setSubtitle(data)
+                      }}
+                    />
                   </Form.Item>
                 </Col>
 
