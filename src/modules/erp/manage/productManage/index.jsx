@@ -1064,7 +1064,7 @@ export default function ProductManage(props) {
                     <div style={{ paddingTop: 24, paddingBottom: 24 }}>
                       <Upload
                         {...optionProductCoverImage}
-                        accept="image/jpeg, image/png, image/jfif"
+                        accept="image/jpeg, image/png, image/jfif, image/webp"
                         style={{ width: "100%" }}
                         maxCount={1}
                         showUploadList={false}
@@ -1115,7 +1115,7 @@ export default function ProductManage(props) {
                     <div style={{ paddingTop: 24, paddingBottom: 24 }}>
                       <Upload
                         {...optionProductRecommendImage}
-                        accept="image/jpeg, image/png, image/jfif"
+                        accept="image/jpeg, image/png, image/jfif, image/webp"
                         style={{ width: "100%" }}
                         maxCount={1}
                         showUploadList={false}
@@ -1166,7 +1166,7 @@ export default function ProductManage(props) {
                     <div style={{ paddingTop: 24, paddingBottom: 24 }}>
                       <Upload
                         {...optionProductAdsImage}
-                        accept="image/jpeg, image/png, image/jfif"
+                        accept="image/jpeg, image/png, image/jfif, image/webp"
                         style={{ width: "100%" }}
                         maxCount={1}
                         showUploadList={false}
@@ -1226,7 +1226,7 @@ export default function ProductManage(props) {
                     <label>โปรโมชั่น</label>
                     <Upload
                       {...optionProductGalleryImage}
-                      accept="image/jpeg, image/png, image/jfif"
+                      accept="image/jpeg, image/png, image/jfif, image/webp"
                       style={{ width: "100%" }}
                       multiple
                       maxCount={1}
@@ -1317,7 +1317,7 @@ export default function ProductManage(props) {
                     <label>ภาพรายละเอียด Product</label>
                     <Upload
                       {...optionProductDetailGalleryImage}
-                      accept="image/jpeg, image/png, image/jfif"
+                      accept="image/jpeg, image/png, image/jfif, image/webp"
                       style={{ width: "100%" }}
                       multiple
                       maxCount={1}
@@ -1410,7 +1410,7 @@ export default function ProductManage(props) {
                     <label>ภาพตัวอย่างผลงาน</label>
                     <Upload
                       {...optionProductExampleGalleryImage}
-                      accept="image/jpeg, image/png, image/jfif"
+                      accept="image/jpeg, image/png, image/jfif, image/webp"
                       style={{ width: "100%" }}
                       multiple
                       maxCount={1}

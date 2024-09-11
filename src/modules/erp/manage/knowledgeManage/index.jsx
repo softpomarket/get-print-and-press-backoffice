@@ -634,7 +634,7 @@ export default function KnowledgeManage(props) {
                 <div style={{ paddingTop: 24, paddingBottom: 24 }}>
                   <Upload
                     {...optionImageKnowledgeCover}
-                    accept="image/jpeg, image/png, image/jfif"
+                    accept="image/jpeg, image/png, image/jfif, image/webp"
                     style={{ width: "100%" }}
                     maxCount={1}
                     showUploadList={false}
@@ -685,7 +685,7 @@ export default function KnowledgeManage(props) {
                 <div style={{ paddingTop: 24, paddingBottom: 24 }}>
                   <Upload
                     {...optionImageKnowledgeDetail}
-                    accept="image/jpeg, image/png, image/jfif"
+                    accept="image/jpeg, image/png, image/jfif, image/webp"
                     style={{ width: "100%" }}
                     maxCount={1}
                     showUploadList={false}
