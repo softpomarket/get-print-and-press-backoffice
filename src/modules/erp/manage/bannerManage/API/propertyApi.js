@@ -119,8 +119,6 @@ const updatePropertiesFetch = async (param, body, accessToken) => {
 
 const updateBannersFetch = async (param, body, accessToken) => {
   try {
-    console.log("param", param);
-    console.log("body", body);
     const result = await httpClient.put(
       `${server.UPDATE_BANNERS_URL}/${param.id}`,
       body,
@@ -130,10 +128,9 @@ const updateBannersFetch = async (param, body, accessToken) => {
         },
       }
     );
-    console.log("Update", result);
 
-    if (result.data.status) {
-      return result.data.status;
+    if (result.status == 200) {
+      return result;
     } else {
       return null;
     }
